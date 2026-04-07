@@ -18,7 +18,8 @@ const app = express()
 
 // 1. IMPROVED CORS CONFIG
 app.use(cors({
-    origin: "*", // Allows all origins. For higher security, replace "*" with your frontend Vercel URL
+    // REMOVE THE TRAILING SLASH "/" AT THE END
+    origin: "https://urban-574n-2d74sp3pe-omitterang-4810s-projects.vercel.app", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }))

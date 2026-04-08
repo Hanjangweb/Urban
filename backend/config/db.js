@@ -1,29 +1,32 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-// This variable persists across function executions in the same "container"
-let isConnected = false;
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+}
 
 const connectDb = async () => {
-  if (isConnected) {
-    console.log("=> Using existing database connection");
-    return;
-  }
+    if (cached.conn) {
+        return cached.conn;
+    }
 
-  console.log("=> Creating new database connection");
-  try {
-    const db = await mongoose.connect(process.env.MONGO_URI, {
-      // These options help Mongoose handle serverless timeouts better
-      serverSelectionTimeoutMS: 5000, 
-      socketTimeoutMS: 45000,
-    });
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 5000,
+        }).then((mongoose) => mongoose);
+    }
 
-    isConnected = db.connections[0].readyState;
-    console.log("MongoDB Connected to URBAN");
-  } catch (error) {
-    console.error("MongoDB Connection Error:", error.message);
-    // On Vercel, don't use process.exit(1), just throw so Vercel can retry
-    throw error;
-  }
+    try {
+        cached.conn = await cached.promise;
+        console.log('MongoDB Connected to URBAN');
+    } catch (error) {
+        cached.promise = null;
+        console.log('MongoDB Connection Error:', error.message);
+        throw error;
+    }
+
+    return cached.conn;
 };
 
 module.exports = connectDb;

@@ -59,15 +59,20 @@ const Navbar = () => {
               <NavLink
                 key={label}
                 to={to}
-                className={({ isActive }) =>
-                  `text-sm uppercase relative pb-1 transition-colors duration-200
+                className={() => {
+                  const currentParams = new URLSearchParams(window.location.search)
+                  const linkParams = new URLSearchParams(to.split('?')[1])
+                  const active = [...linkParams].every(
+                    ([key, val]) => currentParams.get(key) === val
+                  )
+                  return `text-sm uppercase relative pb-1 transition-colors duration-200
                   after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-black
                   after:transition-all after:duration-300
-                  ${isActive
-                    ? 'text-black after:w-full'
-                    : 'text-gray-600 hover:text-black after:w-0 hover:after:w-full'
-                  }`
-                }
+                  ${active
+                      ? 'text-black after:w-full'
+                      : 'text-gray-600 hover:text-black after:w-0 hover:after:w-full'
+                    }`
+                }}
               >
                 {label}
               </NavLink>
@@ -119,10 +124,10 @@ const Navbar = () => {
         </div>
       </nav>
       {/* Nav Drawer for mobile */}
-      {navDrawerOpen && (
+     
         <div className={`fixed inset-0 z-50 flex transition-opacity duration-300 ${navDrawerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
           {/* Overlay */}
-          <div className="flex-1 bg-black bg-opacity-40" onClick={() => setNavDrawerOpen(false)} />
+         <div className={`flex-1 bg-black bg-opacity-40 ${navDrawerOpen ? 'pointer-events-auto' : 'pointer-events-none'}`} onClick={() => setNavDrawerOpen(false)} />
 
           {/* Drawer */}
           <div className={`w-64 bg-white h-full shadow-xl flex flex-col p-6 space-y-6 overflow-y-auto transition-transform duration-300 ${navDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
@@ -149,7 +154,6 @@ const Navbar = () => {
             ))}
           </div>
         </div>
-      )}
       <CardDrawer drawerOpen={isCartOpen} toggleCartDrawer={() => dispatch(toggleCart())} />
     </>
   );

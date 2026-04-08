@@ -124,13 +124,13 @@ const NewArrival = () => {
                     {newArrivals.map((product) => (
                         <div
                             key={product._id}
-                            className={`min-w-[60%] sm:min-w-[50%] lg:min-w-[30%] relative rounded-lg overflow-hidden transition-shadow duration-300 ${!isDragging ? 'hover:shadow-xl' : ''
+                            className={`min-w-[70%] sm:min-w-[50%] lg:min-w-[30%] relative rounded-lg overflow-hidden transition-shadow duration-300 ${!isDragging ? 'hover:shadow-xl' : ''
                                 }`}
                         >
                             <img
                                 src={product.images[0]?.url}
                                 alt={product.images[0]?.altText || product.name}
-                                className='w-full h-[500px] object-cover'
+                                className='w-full h-[400px] md:h-[500px] object-cover'
                                 draggable="false"
                             />
                             {/* Overlay */}

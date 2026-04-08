@@ -16,26 +16,18 @@ const AdminOrderRoutes = require("./routes/adminOrderRoutes")
 
 const app = express()
 
-const allowedOrigins = [
-    "http://localhost:5173",                 
-    "https://urban-574n.vercel.app",         
-    "https://urban-574n.vercel.app/"         
-];
+
 
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
+        // Allow requests with no origin (like mobile apps) 
+        // OR allow any origin by mirroring it back
+        callback(null, true);
     },
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-}));
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
+}))
 
 app.use(express.json())
 

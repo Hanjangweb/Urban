@@ -25,15 +25,15 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if(navDrawerOpen){
+    if (navDrawerOpen) {
       document.body.style.overflow = 'hidden'
-    }else{
+    } else {
       document.body.style.overflow = ''
     }
     return () => {
       document.body.style.overflow = ''
     }
-  },[navDrawerOpen])
+  }, [navDrawerOpen])
   return (
     <>
       <nav className={` sticky top-0 z-40 bg-white transition-all duration-300 ${scrolled ? 'py-2 shadow-md' : 'py-0'
@@ -120,14 +120,12 @@ const Navbar = () => {
       </nav>
       {/* Nav Drawer for mobile */}
       {navDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex">
+        <div className={`fixed inset-0 z-50 flex transition-opacity duration-300 ${navDrawerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
           {/* Overlay */}
-          <div
-            className="flex-1 bg-black bg-opacity-40"
-            onClick={() => setNavDrawerOpen(false)}
-          />
+          <div className="flex-1 bg-black bg-opacity-40" onClick={() => setNavDrawerOpen(false)} />
+
           {/* Drawer */}
-          <div className="w-64 bg-white h-full shadow-xl flex flex-col p-6 space-y-6 overflow-y-auto">
+          <div className={`w-64 bg-white h-full shadow-xl flex flex-col p-6 space-y-6 overflow-y-auto transition-transform duration-300 ${navDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
             <button
               onClick={() => setNavDrawerOpen(false)}
               className="self-end text-gray-500 hover:text-black text-xl"

@@ -81,7 +81,7 @@ const Search = () => {
             <button
               type="button"
               onClick={handleSearchToggle}
-              className="absolute right-6 text-gray-600 hover:text-black p-2"
+              className="hidden md:block absolute right-6 text-gray-600 hover:text-black p-2"
             >
               <HiMiniXMark className="h-7 w-7" />
             </button>

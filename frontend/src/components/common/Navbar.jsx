@@ -24,6 +24,16 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if(navDrawerOpen){
+      document.body.style.overflow = 'hidden'
+    }else{
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  },[navDrawerOpen])
   return (
     <>
       <nav className={` sticky top-0 z-40 bg-white transition-all duration-300 ${scrolled ? 'py-2 shadow-md' : 'py-0'
@@ -117,7 +127,7 @@ const Navbar = () => {
             onClick={() => setNavDrawerOpen(false)}
           />
           {/* Drawer */}
-          <div className="w-64 bg-white h-full shadow-xl flex flex-col p-6 space-y-6">
+          <div className="w-64 bg-white h-full shadow-xl flex flex-col p-6 space-y-6 overflow-y-auto">
             <button
               onClick={() => setNavDrawerOpen(false)}
               className="self-end text-gray-500 hover:text-black text-xl"

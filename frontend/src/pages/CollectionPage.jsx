@@ -43,12 +43,29 @@ const CollectionPage = () => {
        
     },[])
 
-    
+    useEffect(() => {
+        if(isSidebarOpen){
+            document.body.style.overflow = "hidden"
+        }else{
+            document.body.style.overflow = ''
+        }
+        return () => {
+            document.body.style.overflow = ''
+        }
+    },[isSidebarOpen])
   return (
     <>
     <div className='flex flex-col lg:flex-row'>
+        {/* Overlay */}
+        {isSidebarOpen && (
+            <div
+                className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+                onClick={() => setIsSidebarOpen(false)}
+            />
+        )}
+
         {/* Mobile filter button */}
-        <button onClick={toggleSidebar } className='lg:hidden border p-2 flex justify-center items-center'>
+        <button onClick={toggleSidebar } className='lg:hidden border p-2 flex items-center'>
             <FaFilter className="mr-2" /> Filters
         </button>
         {/* Filter Sidebar */}

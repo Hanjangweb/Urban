@@ -33,8 +33,16 @@ app.use(express.json())
 
 const PORT = process.env.PORT || 3000
 
-// Connect to Mongodb
-connectDb();
+// MiddleWare to connect DB before every request
+app.use(async (req, res, next ) => {
+    try{
+        await connectDb()
+        next()
+    }catch(err){
+        res.status(500).json({message: "Database connection failed"})
+    }
+})
+
 
 app.get("/", (req, res) => {
     res.send("Welcome to URBAN")

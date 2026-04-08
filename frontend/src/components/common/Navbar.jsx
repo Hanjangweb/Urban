@@ -6,6 +6,7 @@ import CardDrawer from '../Layout/CardDrawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleCart } from '../../redux/slices/cartSlice';
 
+
 const Navbar = () => {
   const dispatch = useDispatch();
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
@@ -25,11 +26,10 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={` sticky top-0 z-40 bg-white transition-all duration-300 ${
-        scrolled ? 'py-2 shadow-md' : 'py-0'
-      }`}>
+      <nav className={` sticky top-0 z-40 bg-white transition-all duration-300 ${scrolled ? 'py-2 shadow-md' : 'py-0'
+        }`}>
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
-          
+
           {/* Logo */}
           <Link
             to="/"
@@ -108,7 +108,40 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
+      {/* Nav Drawer for mobile */}
+      {navDrawerOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Overlay */}
+          <div
+            className="flex-1 bg-black bg-opacity-40"
+            onClick={() => setNavDrawerOpen(false)}
+          />
+          {/* Drawer */}
+          <div className="w-64 bg-white h-full shadow-xl flex flex-col p-6 space-y-6">
+            <button
+              onClick={() => setNavDrawerOpen(false)}
+              className="self-end text-gray-500 hover:text-black text-xl"
+            >
+              ✕
+            </button>
+            {[
+              { to: "/collections/all?gender=Women", label: "Women" },
+              { to: "/collections/all?gender=Men", label: "Men" },
+              { to: "/collections/all?category=Top Wear", label: "Top Wear" },
+              { to: "/collections/all?category=Bottom Wear", label: "Bottom Wear" },
+            ].map(({ to, label }) => (
+              <Link
+                key={label}
+                to={to}
+                onClick={() => setNavDrawerOpen(false)}
+                className="text-lg font-medium text-gray-700 hover:text-black border-b pb-3"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
       <CardDrawer drawerOpen={isCartOpen} toggleCartDrawer={() => dispatch(toggleCart())} />
     </>
   );

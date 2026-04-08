@@ -89,7 +89,7 @@ const NewArrival = () => {
                 <h2 className='text-3xl font-bold mb-4'>Explore New Arrivals</h2>
                 <p>Discover the latest styles straight off the runway, freshly added to keep your wardrobe on the cutting edge of fashion.</p>
                 {/* Scroll buttons */}
-                <div className='absolute right-0 top-1 flex space-x-2'>
+                <div className='absolute right-0 top-1 hidden sm:flex space-x-2'>
                     <button
                         onClick={() => scroll("left")}
                         disabled={!canScrollLeft}
@@ -124,7 +124,7 @@ const NewArrival = () => {
                     {newArrivals.map((product) => (
                         <div
                             key={product._id}
-                            className={`min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] relative rounded-lg overflow-hidden transition-shadow duration-300 ${!isDragging ? 'hover:shadow-xl' : ''
+                            className={`min-w-[60%] sm:min-w-[50%] lg:min-w-[30%] relative rounded-lg overflow-hidden transition-shadow duration-300 ${!isDragging ? 'hover:shadow-xl' : ''
                                 }`}
                         >
                             <img

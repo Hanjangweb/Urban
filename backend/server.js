@@ -16,13 +16,26 @@ const AdminOrderRoutes = require("./routes/adminOrderRoutes")
 
 const app = express()
 
-// 1. IMPROVED CORS CONFIG
+const allowedOrigins = [
+    "http://localhost:5173",                 
+    "https://urban-574n.vercel.app",         
+    "https://urban-574n.vercel.app/"         
+];
+
 app.use(cors({
-    // REMOVE THE TRAILING SLASH "/" AT THE END
-    origin: "https://urban-574n-2d74sp3pe-omitterang-4810s-projects.vercel.app", 
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
-}))
+}));
 
 app.use(express.json())
 
